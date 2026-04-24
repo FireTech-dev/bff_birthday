@@ -1,0 +1,818 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday</title>
+    <style>
+      :root {
+        --ivory: #fdf6ee;
+        --blush: #f2c4c4;
+        --rose: #d4848a;
+        --deep-rose: #9e4f55;
+        --gold: #c9a96e;
+        --champagne: #e8d5b0;
+        --dark: #2c1810;
+        --text: #3d2020;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background-color: var(--ivory);
+        color: var(--text);
+        font-family: "EB Garamond", serif;
+        overflow-x: hidden;
+      }
+
+      /* ── Decorative petal particles ── */
+      .petals {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+      }
+      .petal {
+        position: absolute;
+        top: -60px;
+        width: 12px;
+        height: 16px;
+        border-radius: 50% 0 50% 0;
+        opacity: 0;
+        animation: fallPetal linear infinite;
+      }
+      .petal:nth-child(odd) {
+        border-radius: 0 50% 0 50%;
+      }
+
+      @keyframes fallPetal {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.55;
+        }
+        90% {
+          opacity: 0.3;
+        }
+        100% {
+          transform: translateY(110vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* ── Page layout ── */
+      main {
+        position: relative;
+        z-index: 1;
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 60px 24px 100px;
+      }
+
+      /* ── Decorative corner SVG overlays ── */
+      .corner-ornament {
+        position: fixed;
+        width: 180px;
+        opacity: 0.22;
+        pointer-events: none;
+      }
+      .corner-ornament.tl {
+        top: 0;
+        left: 0;
+      }
+      .corner-ornament.tr {
+        top: 0;
+        right: 0;
+        transform: scaleX(-1);
+      }
+      .corner-ornament.bl {
+        bottom: 0;
+        left: 0;
+        transform: scaleY(-1);
+      }
+      .corner-ornament.br {
+        bottom: 0;
+        right: 0;
+        transform: scale(-1);
+      }
+
+      /* ── Header ── */
+      .header {
+        text-align: center;
+        margin-bottom: 56px;
+        animation: fadeUp 1.2s ease both;
+      }
+
+      .header .occasion {
+        font-family: "EB Garamond", serif;
+        font-style: italic;
+        font-size: 1.05rem;
+        letter-spacing: 0.25em;
+        color: var(--rose);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 12px;
+      }
+
+      .header h1 {
+        font-family: "Cinzel Decorative", serif;
+        font-size: clamp(2rem, 6vw, 3.6rem);
+        font-weight: 400;
+        color: var(--deep-rose);
+        line-height: 1.15;
+        letter-spacing: 0.04em;
+      }
+
+      .header h1 span {
+        display: block;
+        font-size: 0.55em;
+        color: var(--gold);
+        letter-spacing: 0.18em;
+        margin-top: 8px;
+        font-weight: 700;
+      }
+
+      .divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        justify-content: center;
+        margin: 28px auto 0;
+        width: fit-content;
+      }
+      .divider-line {
+        width: 80px;
+        height: 1px;
+        background: linear-gradient(to right, transparent, var(--gold));
+      }
+      .divider-line.r {
+        background: linear-gradient(to left, transparent, var(--gold));
+      }
+      .divider svg {
+        color: var(--gold);
+        width: 20px;
+        height: 20px;
+      }
+
+      /* ── Portrait Section ── */
+      .portrait-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 64px;
+        animation: fadeUp 1.2s 0.3s ease both;
+      }
+
+      .portrait-frame {
+        position: relative;
+        width: 280px;
+        height: 340px;
+      }
+
+      .portrait-frame::before,
+      .portrait-frame::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        border: 1px solid var(--gold);
+        opacity: 0.5;
+        animation: pulseRing 4s ease-in-out infinite;
+      }
+      .portrait-frame::before {
+        inset: -16px;
+        border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      }
+      .portrait-frame::after {
+        inset: -30px;
+        border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        animation-delay: 1s;
+        opacity: 0.25;
+      }
+
+      @keyframes pulseRing {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.4;
+        }
+        50% {
+          transform: scale(1.03);
+          opacity: 0.7;
+        }
+      }
+
+      /* Portrait placeholder */
+      .portrait-placeholder {
+        background-image: url("img-1.jpg");
+        background-position: center;
+        background-size: contain;
+        width: 100%;
+        height: 100%;
+        border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        border: 3px solid var(--champagne);
+        box-shadow: 0 8px 40px rgba(180, 100, 100, 0.18);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+      .portrait-placeholder:hover {
+        transform: scale(1.02);
+      }
+      .portrait-placeholder svg {
+        color: var(--deep-rose);
+        opacity: 0.6;
+        width: 40px;
+        height: 40px;
+      }
+      .portrait-placeholder p {
+        font-style: italic;
+        color: var(--deep-rose);
+        font-size: 0.85rem;
+        opacity: 0.7;
+        text-align: center;
+        padding: 0 20px;
+      }
+
+      .portrait-caption {
+        margin-top: 28px;
+        text-align: center;
+      }
+      .portrait-caption .name {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 2rem;
+        font-weight: 300;
+        font-style: italic;
+        color: var(--deep-rose);
+        letter-spacing: 0.05em;
+      }
+      .portrait-caption .tagline {
+        font-size: 0.9rem;
+        color: var(--gold);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-top: 4px;
+      }
+
+      /* ── Message Card ── */
+      .message-card {
+        background: linear-gradient(145deg, #fff9f5, #fff3ef);
+        border: 1px solid var(--champagne);
+        border-radius: 2px;
+        padding: 48px 52px;
+        margin-bottom: 64px;
+        position: relative;
+        box-shadow: 0 4px 32px rgba(180, 100, 100, 0.08);
+        animation: fadeUp 1.2s 0.5s ease both;
+      }
+
+      .message-card::before {
+        content: "\201C";
+        position: absolute;
+        top: 16px;
+        left: 28px;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 7rem;
+        color: var(--blush);
+        line-height: 1;
+        opacity: 0.7;
+      }
+
+      .message-card p {
+        font-size: 1.15rem;
+        line-height: 1.9;
+        color: var(--text);
+        position: relative;
+        z-index: 1;
+        font-style: italic;
+      }
+
+      .message-card .signature {
+        margin-top: 24px;
+        text-align: right;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.1rem;
+        color: var(--rose);
+        font-style: normal;
+      }
+
+      /* ── Second Portrait Section ── */
+      .second-portrait-section {
+        margin-bottom: 64px;
+        animation: fadeUp 1.2s 0.7s ease both;
+      }
+
+      .section-label {
+        text-align: center;
+        margin-bottom: 28px;
+      }
+      .section-label h2 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.8rem;
+        font-weight: 300;
+        font-style: italic;
+        color: var(--deep-rose);
+      }
+
+/* Elegant rectangular photo frame */
+.photo-frame-outer {
+  display: flex;
+  justify-content: center;
+}
+
+.photo-frame-border {
+  position: relative;
+  border: 2px solid var(--champagne);
+  padding: 14px;
+  background: white;
+  box-shadow:
+    0 8px 40px rgba(180, 100, 100, 0.12),
+    inset 0 0 0 1px rgba(201, 169, 110, 0.15);
+  width: 100%;
+  max-width: 420px;
+}
+
+/* Gold corner brackets */
+.photo-frame-border::before,
+.photo-frame-border::after {
+  content: '';
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-color: var(--gold);
+  border-style: solid;
+  opacity: 0.8;
+}
+.photo-frame-border::before { top: -3px; left: -3px; border-width: 2px 0 0 2px; }
+.photo-frame-border::after  { bottom: -3px; right: -3px; border-width: 0 2px 2px 0; }
+
+.photo-frame-inner-tl,
+.photo-frame-inner-br {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-color: var(--gold);
+  border-style: solid;
+  opacity: 0.8;
+  z-index: 2;
+}
+.photo-frame-inner-tl { bottom: -3px; left: -3px; border-width: 0 0 2px 2px; }
+.photo-frame-inner-br { top: -3px; right: -3px; border-width: 2px 2px 0 0; }
+
+/* Placeholder — portrait shape before image loads */
+.photo-placeholder {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: linear-gradient(160deg, #fce8e4, #f0d0cc);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.photo-placeholder:hover { background: linear-gradient(160deg, #fad8d2, #e8c0bc); }
+.photo-placeholder svg { color: var(--deep-rose); opacity: 0.55; width: 44px; height: 44px; }
+.photo-placeholder p {
+  font-style: italic;
+  color: var(--deep-rose);
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* Full image — no crop, natural height */
+.photo-loaded {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 2px;
+}
+
+.photo-caption {
+  text-align: center;
+  margin-top: 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--rose);
+  letter-spacing: 0.06em;
+}
+
+
+      /* ── Friendship Qualities ── */
+      .qualities-section {
+        margin-bottom: 64px;
+        animation: fadeUp 1.2s 0.9s ease both;
+      }
+
+      .qualities-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+        margin-top: 32px;
+      }
+
+      .quality-card {
+        background: white;
+        border: 1px solid var(--champagne);
+        padding: 28px 20px;
+        text-align: center;
+        position: relative;
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
+      }
+      .quality-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 36px rgba(180, 100, 100, 0.12);
+      }
+      .quality-card::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 2px;
+        background: var(--gold);
+        transition: width 0.3s;
+      }
+      .quality-card:hover::after {
+        width: 70px;
+      }
+
+      .quality-icon {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+      }
+      .quality-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.1rem;
+        color: var(--deep-rose);
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      .quality-desc {
+        font-size: 0.85rem;
+        color: #7a4a4a;
+        line-height: 1.6;
+        font-style: italic;
+      }
+
+      /* ── Footer ── */
+      .footer {
+        text-align: center;
+        padding-top: 32px;
+        border-top: 1px solid var(--champagne);
+        animation: fadeUp 1.2s 1.1s ease both;
+      }
+      .footer p {
+        font-style: italic;
+        color: var(--rose);
+        font-size: 1rem;
+        line-height: 1.8;
+      }
+      .footer .year {
+        display: block;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.4rem;
+        color: var(--gold);
+        margin-top: 12px;
+        letter-spacing: 0.15em;
+      }
+
+      /* ── Animation ── */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(28px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ── Responsive ── */
+      @media (max-width: 600px) {
+        .message-card {
+          padding: 36px 28px;
+        }
+        .portrait-frame {
+          width: 220px;
+          height: 270px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="petals" id="petals"></div>
+    <div>
+      <svg
+        class="corner-ornament tl"
+        viewBox="0 0 200 200"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M10,10 Q60,10 60,60 Q60,110 110,110"
+          stroke="#c9a96e"
+          stroke-width="1.2"
+          fill="none"
+        />
+        <path
+          d="M10,30 Q40,30 50,70"
+          stroke="#d4848a"
+          stroke-width="0.8"
+          fill="none"
+        />
+        <circle cx="60" cy="60" r="5" fill="#d4848a" opacity="0.5" />
+        <circle cx="110" cy="110" r="4" fill="#c9a96e" opacity="0.4" />
+        <path
+          d="M30,10 Q30,40 60,50"
+          stroke="#c9a96e"
+          stroke-width="0.7"
+          fill="none"
+        />
+        <ellipse
+          cx="55"
+          cy="42"
+          rx="8"
+          ry="5"
+          fill="#f2c4c4"
+          opacity="0.6"
+          transform="rotate(-30 55 42)"
+        />
+        <ellipse
+          cx="72"
+          cy="30"
+          rx="6"
+          ry="4"
+          fill="#f2c4c4"
+          opacity="0.5"
+          transform="rotate(20 72 30)"
+        />
+      </svg>
+      <svg
+        class="corner-ornament tr"
+        viewBox="0 0 200 200"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M10,10 Q60,10 60,60 Q60,110 110,110"
+          stroke="#c9a96e"
+          stroke-width="1.2"
+          fill="none"
+        />
+        <path
+          d="M10,30 Q40,30 50,70"
+          stroke="#d4848a"
+          stroke-width="0.8"
+          fill="none"
+        />
+        <circle cx="60" cy="60" r="5" fill="#d4848a" opacity="0.5" />
+        <ellipse
+          cx="55"
+          cy="42"
+          rx="8"
+          ry="5"
+          fill="#f2c4c4"
+          opacity="0.6"
+          transform="rotate(-30 55 42)"
+        />
+      </svg>
+      <svg
+        class="corner-ornament bl"
+        viewBox="0 0 200 200"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M10,10 Q60,10 60,60 Q60,110 110,110"
+          stroke="#c9a96e"
+          stroke-width="1.2"
+          fill="none"
+        />
+        <circle cx="60" cy="60" r="5" fill="#d4848a" opacity="0.5" />
+        <ellipse
+          cx="55"
+          cy="42"
+          rx="8"
+          ry="5"
+          fill="#f2c4c4"
+          opacity="0.6"
+          transform="rotate(-30 55 42)"
+        />
+      </svg>
+      <svg
+        class="corner-ornament br"
+        viewBox="0 0 200 200"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M10,10 Q60,10 60,60 Q60,110 110,110"
+          stroke="#c9a96e"
+          stroke-width="1.2"
+          fill="none"
+        />
+        <circle cx="60" cy="60" r="5" fill="#d4848a" opacity="0.5" />
+        <ellipse
+          cx="55"
+          cy="42"
+          rx="8"
+          ry="5"
+          fill="#f2c4c4"
+          opacity="0.6"
+          transform="rotate(-30 55 42)"
+        />
+      </svg>
+    </div>
+
+    <main>
+      <!-- Header -->
+      <header class="header">
+        <span class="occasion">A Celebration of You</span>
+        <h1>
+          Happy Birthday
+          <span>With Love &amp; Gratitude</span>
+        </h1>
+        <div class="divider">
+          <div class="divider-line"></div>
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"
+            />
+          </svg>
+          <div class="divider-line r"></div>
+        </div>
+      </header>
+
+      <!-- Portrait -->
+      <section class="portrait-section">
+        <div class="portrait-frame">
+          <div class="portrait-placeholder"></div>
+        </div>
+
+        <div class="portrait-caption">
+          <div class="name">Feyisola</div>
+          <div class="tagline">Beautiful Soul · Cherished Friend</div>
+        </div>
+      </section>
+
+      <!-- Message -->
+      <section class="message-card">
+        <p>
+          On this beautiful day, I want you to know how much your friendship has
+          been to me. You bring light into rooms without even trying. Your
+          grace, your laughter, the way you carry yourself with such quiet
+          elegance — it is a gift to know you. May this birthday be the
+          beginning of your most beautiful season yet. You deserve every
+          wonderful thing this world holds.
+        </p>
+        <div class="signature">— With endless love</div>
+      </section>
+
+      <!-- Second Portrait -->
+      <section class="second-portrait-section">
+        <div class="section-label">
+          <div class="divider" style="margin-bottom: 14px">
+            <div class="divider-line"></div>
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              style="width: 16px; height: 16px; color: var(--gold)"
+            >
+              <path
+                d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"
+              />
+            </svg>
+            <div class="divider-line r"></div>
+          </div>
+          <h2>A Portrait Worth a Thousand Words</h2>
+        </div>
+
+        <div class="photo-frame-outer">
+          <div class="photo-frame-border">
+            <div class="photo-frame-inner-tl"></div>
+            <div class="photo-frame-inner-br"></div>
+            <div class="photo-placeholder">
+              <img src="img-2.png" alt="Image" />
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-caption">
+          " Every picture tells the story of someone worth knowing "
+        </div>
+      </section>
+
+      <!-- Friendship Qualities -->
+      <section class="qualities-section">
+        <div class="section-label">
+          <div class="divider" style="margin-bottom: 14px">
+            <div class="divider-line"></div>
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              style="width: 16px; height: 16px; color: var(--gold)"
+            >
+              <path
+                d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"
+              />
+            </svg>
+            <div class="divider-line r"></div>
+          </div>
+          <h2>What Makes You, You</h2>
+        </div>
+
+        <div class="qualities-grid">
+          <div class="quality-card">
+            <div class="quality-icon">🌸</div>
+            <div class="quality-title">Grace</div>
+            <div class="quality-desc">
+              The way you move through life with quiet dignity and ease
+            </div>
+          </div>
+          <div class="quality-card">
+            <div class="quality-icon">✨</div>
+            <div class="quality-title">Warmth</div>
+            <div class="quality-desc">
+              Your presence makes every moment feel safe and golden
+            </div>
+          </div>
+          <div class="quality-card">
+            <div class="quality-icon">🌹</div>
+            <div class="quality-title">Strength</div>
+            <div class="quality-desc">
+              Resilient and elegant, even when the world is heavy
+            </div>
+          </div>
+          <div class="quality-card">
+            <div class="quality-icon">💫</div>
+            <div class="quality-title">Joy</div>
+            <div class="quality-desc">
+              Your laughter is a rare and beautiful kind of music
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>
+          Today is the day we celebrate the day you arrived in this world.<br />
+          And God has a purpose for your existence.
+        </p>
+        <span class="year" id="year-display"></span>
+      </footer>
+    </main>
+    <script>
+      // ── Year ──
+      document.getElementById("year-display").textContent =
+        new Date().getFullYear();
+
+      // ── Generate falling petals ──
+      const petalColors = [
+        "#f2c4c4",
+        "#e8d5b0",
+        "#d4848a",
+        "#f9ddd0",
+        "#e8b4b8",
+      ];
+      const container = document.getElementById("petals");
+      for (let i = 0; i < 22; i++) {
+        const p = document.createElement("div");
+        p.className = "petal";
+        p.style.cssText = `
+        left: ${Math.random() * 100}%;
+        background: ${petalColors[Math.floor(Math.random() * petalColors.length)]};
+        width: ${8 + Math.random() * 10}px;
+        height: ${12 + Math.random() * 10}px;
+        animation-duration: ${6 + Math.random() * 10}s;
+        animation-delay: ${Math.random() * 12}s;
+        opacity: 0;
+      `;
+        container.appendChild(p);
+      }
+    </script>
+  </body>
+</html>
